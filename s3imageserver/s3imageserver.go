@@ -16,6 +16,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
+//Config ...
 type Config struct {
 	Handlers     []HandlerConfig `json:"handlers"`
 	HTTPPort     int             `json:"http_port"`
@@ -26,6 +27,7 @@ type Config struct {
 	HTTPSKey     string          `json:"https_key"`
 }
 
+//HandlerConfig ...
 type HandlerConfig struct {
 	Name   string `json:"name"`
 	Prefix string `json:"prefix"`
@@ -42,8 +44,10 @@ type HandlerConfig struct {
 	CacheTime    *int     `json:"cache_time"`
 }
 
+//HandleVerification ...
 type HandleVerification func(string) bool
 
+//Run ...
 func Run(verify HandleVerification) {
 	envArg := flag.String("c", "config.json", "Configuration")
 	flag.Parse()
