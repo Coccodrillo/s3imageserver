@@ -15,6 +15,7 @@ import (
 	"github.com/kr/s3"
 )
 
+//Image ...
 type Image struct {
 	Path            string
 	FileName        string
@@ -34,6 +35,7 @@ type Image struct {
 var allowedTypes = []string{".png", ".jpg", ".jpeg", ".gif", ".webp"}
 var allowedMap = map[vips.ImageType]string{vips.WEBP: ".webp", vips.JPEG: ".jpg", vips.PNG: ".png"}
 
+//NewImage ...
 func NewImage(r *http.Request, config HandlerConfig, fileName string) (image *Image, err error) {
 	maxDimension := 3064
 	height := int(to.Float64(r.URL.Query().Get("h")))
@@ -94,7 +96,8 @@ func (i *Image) getImage(w http.ResponseWriter, r *http.Request, AWSAccess strin
 		err := i.getImageFromS3(AWSAccess, AWSSecret)
 		if err != nil {
 			fmt.Println(err)
-			err = i.getErrorImage()
+			errImage := i.getErrorImage()
+			fmt.Println(errImage)
 			w.WriteHeader(404)
 		} else {
 			i.resizeCrop()
